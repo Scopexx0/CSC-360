@@ -1,21 +1,29 @@
-import pandas as pd
+import tkinter
+import customtkinter
+# import PySimpleGUI as psg
 
-archivo = './x.csv'
 
-df = pd.read_csv(archivo)
+# app settings
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
-# Heads first 5 elements
-# print(df.head())
-# Print the last '20' elements
-# print(df.tail(20))
+#Tkinter init
+app = tkinter.Tk()
 
-# filtering also could be like the example of the nuggets.
-# print(df.loc[df['Filter'] == "PR"])
+app = customtkinter.CTk()
+app.geometry("720x480")
+app.title("Hawks meal")
 
-# Type of meal usr wants to pick.
-lnch = df[(df['Meal'] == 'Lunch')]
+title = customtkinter.CTkLabel(app, text="check")
+title.pack(padx=10, pady=10)
 
-# Searcher for something specific. (probably filtering also)
-nugs = df[df['Name'].str.contains('Nuggets')]
-print(nugs)
+# button
+download = customtkinter.CTkButton(app, text="Button")
+download.pack(padx=10, pady=10)  
 
+# input
+usr = customtkinter.CTkEntry(app, width=350, height=40)
+usr.pack()
+
+# running app
+app.mainloop()
