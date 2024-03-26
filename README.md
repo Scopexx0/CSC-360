@@ -18,8 +18,8 @@ git checkout -b not_main
 
 Create virtual environment (windows) (CMD)
 ```
-C:/>python -m venv c:/ruta/al/entorno/virtual
-C:/>c:/ruta/al/entorno/virtual/scripts/activate.bat
+C:/>python -m venv c:/pathtothevenv
+C:/>c:/pathtothevenv/scripts/activate.bat
 ```
 
 Create virtual environment (Linux)
