@@ -1,0 +1,7 @@
+venv/*
+macvenv/*
+x.xlsx
+*.log
+*.pot
+*.pyc
+*/__pycache__/

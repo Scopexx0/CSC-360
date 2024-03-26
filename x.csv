@@ -1,0 +1,117 @@
+Day,Meal,Name,Calories,Protein,Carbs,Sugar,TotalFat,Filter
+,EveryDay,Loaded Baked Potato Soup with Bacon,170,6,9,2,12,
+,EveryDay,Vegetable Beef Barley Soup,110,8,15,2,2,V
+,EveryDay,"Crackers, Saltine, 2 CT, Zesta",25,0.5,4,0,0,
+,EveryDay,Sliced Pepperoni,140,5,0,0,13,
+,EveryDay,Multigrain Bread,280,8,52,8,4,VG
+,EveryDay,"10"" Whole Wheat Flour Tortilla",210,5,34,3,6,VG
+,EveryDay,"10"" Flour Tortilla",200,6,34,1,6,VG
+,EveryDay,"12"" Spinach Herb Tortilla",290,8,47,0,8,VG/PR
+,EveryDay,Udi's White Bread,300,4,48,6,10,V/AG
+,EveryDay,Udi's Hamburger Bun,240,6,44,6,7,V/AG
+,EveryDay,Thinly Sliced Deli Turkey Breast,90,11,3,0.5,3.5,AG
+,EveryDay,Thinly Sliced Smoked Ham,110,15,1,1,4.5,
+,EveryDay,Sliced Genoa Salami,190,12,1,0.5,15,AG
+,EveryDay,Thinly Sliced Chicken,90,13,0,0,4.5,AG/PR
+,EveryDay,Classic Hummus,50,2,6,1,1.5,VG/AG/PR
+,EveryDay,Cheddar Cheese Slice,60,3,0,0,4.5,V/AG
+,EveryDay,Sliced Pepper Jack Cheese,110,7,0,0,9,V/AG
+,EveryDay,Sliced Provolone Cheese,100,7,0.5,0,8,VG/AG/PR
+,EveryDay,Shredded Iceberg Lettuce,5,0,1,0.5,0,VG/AG
+,EveryDay,Baby Spinach,0,0,0,0,0,VG/AG
+,EveryDay,Dill Pickle Slices,0,0,0,0,0,VG
+,EveryDay,Sliced Jalapeno Pepper,0,0,0.5,0,0,VG/AG
+,EveryDay,Banana Pepper Rings,0,0,0,0,0,VG/AG
+,EveryDay,Sliced Tomatoes,0,0,1,0.5,0,VG/AG
+,EveryDay,Sliced Red Onion,5,0,1,0.5,0,VG/AG
+,EveryDay,Mayonnaise,90,0,0,0,10,V
+,EveryDay,Ranch Dressing,140,0,1,1,15,V/AG
+,EveryDay,Chipotle Mayo,60,0,1,0,6,V
+,EveryDay,Buffalo Wing Sauce,5,0,0.5,0,0,VG/AG
+,EveryDay,Balsamic Vinaigrette Dressing,60,0,5,4,4.5,VG/AG
+,EveryDay,House Fried Potato Chips,90,0,5,0,8,
+,EveryDay,Franks Red Hot Seasoning,0,0,0,0,0,VG
+,EveryDay,Everything Bagel Spice,10,0,0.5,0,1,VG/AG
+,EveryDay,Chopped Iceberg Lettuce,10,0.5,2,1,0,VG/AG
+,EveryDay,Romaine Blend,10,0.5,1,0.5,0,VG/AG
+,EveryDay,Spring Mix,5,0.5,1,0.5,0,VG/AG
+,EveryDay,Blanched Broccoli,10,0.5,2,0.5,0,VG/AG
+,EveryDay,Roasted Cauliflower,15,0.5,1,0.5,1,VG/AG
+,EveryDay,Sliced Cucumber,0,0,1,0,0,VG/AG
+,EveryDay,Cherry Tomatoes,5,0,1,0.5,0,VG/AG
+,EveryDay,Baby Carrots,15,0,4,2,0,VG/AG
+,EveryDay,Shredded Carrots,10,0,3,1,0,VG/AG
+,EveryDay,Sliced Black Olives,40,0,2,0,4,VG/AG
+,EveryDay,Chopped Hard Boiled Eggs,50,4,0,0,3.5,V/AG
+,EveryDay,Shredded Cheddar Cheese,30,2,0,0,2.5,V/AG
+,EveryDay,Crumbled Feta Cheese,25,1,0,0,2,V/AG
+,EveryDay,Sliced Pepperoni,140,5,0,0,13,
+,EveryDay,Edamame,35,4,3,0.5,1.5,
+,EveryDay,Shredded Parmesan Cheese,20,2,0,0,1.5,V/AG
+,EveryDay,Green Peas,30,2,6,2,0,VG/AG
+,EveryDay,Ranch Dressing,220,1,2,2,23,V
+,EveryDay,Fat Free Ranch Dressing,30,0,7,3,0,V/AG
+,EveryDay,Honey Mustard Dressing,160,0,7,7,14,V/AG
+,EveryDay,Balsamic Vinaigrette Dressing,60,0,5,4,4.5,VG/AG
+,EveryDay,Country French Dressing,140,0,7,6,13,V/AG
+,EveryDay,Extra Virgin Olive Oil,480,0,0,0,54,VG/AG
+,EveryDay,Balsamic Vinegar,25,0,5,4,0,VG/AG
+,EveryDay,Croutons,70,3,14,1,0.5,VG/AG
+,EveryDay,Roasted Sunflower Seeds,45,2,2,0,4,VG/AG
+,EveryDay,Dried Cranberries,30,0,8,7,0,VG/AG
+,EveryDay,Cottage Cheese,80,14,3,3,1,V/PR
+,EveryDay,Cucumber Salad,90,0.5,22,20,0,VG/AG
+,EveryDay,Black Bean and Corn Salad,70,4,13,1,1,V
+,EveryDay,Low Fat Vanilla Yogurt,100,6,16,16,1.5,V/AG
+,EveryDay,Low-Fat Blueberry Yogurt,60,2,11,11,0.5,AG
+,EveryDay,Sliced Peaches,20,0,4,4,0,VG
+,EveryDay,Cubed Watermelon,10,0,2,2,0,VG
+,EveryDay,Low Fat Almond Granola,70,2,16,5,1,V
+,Breakfast,Scrambled Eggs,200,14,1,0,15,PR
+,Breakfast,Sliced Potatoes with Onions,100,2,17,0,2,V
+,Breakfast,Canadian Bacon,25,5,0,0,0,PR
+,Breakfast,Turkey Sausage Patty,130,14,1,0,7,
+,Breakfast,Maple Sticky Bun,300,5,46,21,11,V
+,Breakfast,Lemon Roasted Broccoli,280,3,8,2,27,
+,Breakfast,"Grits, Jalapeno Cheese",100,2,18,1,1.5,V
+,Lunch,Korean Barbecue Salmon,300,23,37,29,6,
+,Lunch,Meatless Meatballs,100,9,6,0.5,5,
+,Lunch,New Potatoes,120,2,18,0.5,4.5,
+,Lunch,Braised Seasoned Cabbage,60,2,9,5,3,
+,Lunch,Fresh Steamed Carrots,45,1,11,5,0,
+,Lunch,Brioche Bun,250,7,42,0,5,
+,Lunch,Cajun Bayou Burger,620,34,28,6,40,
+,Lunch,Chicken Nuggets,380,22,19,0,24,
+,Lunch,Honey Mustard Salad Dressing,130,0,7,6,12,
+,Lunch,French Fries,60,0,7,0,4,
+,Lunch,Cheesy Breadsticks,250,12,22,2,13,
+,Lunch,Marinara Sauce,15,0,2,1,0.5,
+,Lunch,Cheese Pizza,210,9,33,2,4.5,
+,Lunch,Four Cheese Flat Bread,210,9,21,2,10,
+,Lunch,Grilled Chicken,140,23,0,0,5,
+,Lunch,Beef Taco Pizza,290,14,34,2,12,
+,Lunch,Penne Pasta,90,3,17,0,0.5,
+,Lunch,Garlic Parmesan Sauce,190,3,3,2,18,
+,Lunch,Pasta Chicken Alfredo w Broccoli,430,28,36,4,20,
+,Dinner,Barbeque Chicken,300,31,0,0,18,
+,Dinner,Penne Alfredo Primavera,140,5,23,1,3.5,
+,Dinner,Roasted Zucchini,60,2,5,4,4,
+,Dinner,Corn on the Cob,45,2,11,2,0,
+,Dinner,Pork Chorizo Potato and Egg Taco,300,12,21,0,17,
+,Dinner,Shredded Monterey Jack Cheese,25,2,0,0,2,
+,Dinner,Mild Picante Salsa,10,0,2,1,0,
+,Dinner,Sour Cream,60,0.5,1,0.5,6,
+,Dinner,Grilled Cheese Sandwich,460,18,48,6,21,
+,Dinner,French Fries,60,0,7,0,4,
+,Dinner,Garlic Breadstick,80,2,12,0.5,3,
+,Dinner,Cheese Pizza,210,9,33,2,4.5,
+,Dinner,Ham Pizza,240,13,34,2,6,
+,Dinner,Buffalo Chicken Flatbread,360,12,24,2,23,
+,Dinner,Spaghetti,120,4,22,0,1.5,
+,Dinner,Marinara Sauce,25,0.5,4,2,1,
+,Dinner,Italian Sausage,200,12,1,0.5,17,
+,Dinner,Vegan Italian Sausage,240,25,11,2,10,
+,Dinner,Crushed Red Pepper,5,0,1,0,0,
+,Dinner,Dried Oregano,0,0,0,0,0,
+,Dinner,Grated Parmesan Cheese,25,2,0.5,0,1.5,
+,Dinner,Hot Buffalo Sauce,5,0,0.5,0,0,
