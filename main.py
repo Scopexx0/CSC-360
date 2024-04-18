@@ -1,29 +1,164 @@
-import tkinter
+import pandas as pd
+import sqlite3
 import customtkinter
-# import PySimpleGUI as psg
+
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("dark-blue")
+
+# day_variable = ''
+
+class TitleFrame(customtkinter.CTkFrame):
+    def __init__(self, master, app_instance, **kwargs):
+        self.app_instance = app_instance
+        super().__init__(master, **kwargs, fg_color='yellow')
+
+        # Title Label
+        self.title = customtkinter.CTkLabel(self, text="Hawk's Meals", font=("Arial", 35), text_color="black", bg_color="grey")
+        self.title.pack(padx=10, pady=50)
+
+        # Days Button
+        self.day_button = customtkinter.CTkSegmentedButton(self, values=['Mon', 'Tue',
+                                                                        'Wed', 'Thu',
+                                                                        'Fri', 'Sat', 'Sun'],
+                                                           command=self.day_entry)
+        self.day_button.pack()
+
+    # Day entry
+    def day_entry(self, value):
+        self.app_instance.pass_day(value)
 
 
-# app settings
-customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+class MainFrame(customtkinter.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs, width=600, height=400)
+        
+        # Frame config
+        self.grid_propagate(False)
+        self.grid_columnconfigure((0, 1, 2), weight=1)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
 
-#Tkinter init
-app = tkinter.Tk()
+        # Meals buttons
+        self.breakfast = customtkinter.CTkButton(self, text='BreakFast', command=lambda: self.show_options('Breakfast'))
+        self.lunch = customtkinter.CTkButton(self, text='Lunch', command=lambda: self.show_options('Lunch'))
+        self.dinner = customtkinter.CTkButton(self, text='Dinner', command=lambda: self.show_options('Dinner'))
+        self.breakfast.grid(row=0, column=0, ipadx=20)
+        self.lunch.grid(row=0, column=1, ipadx=20)
+        self.dinner.grid(row=0, column=2, ipadx=20)
 
-app = customtkinter.CTk()
-app.geometry("720x480")
-app.title("Hawks meal")
+        # Meal type for calories_button()
+        self.mt = ''
 
-title = customtkinter.CTkLabel(app, text="check")
-title.pack(padx=10, pady=10)
+        # Day variable from TitleFrame
+        self.day_variable = ''
 
-# button
-download = customtkinter.CTkButton(app, text="Button")
-download.pack(padx=10, pady=10)  
+        # Create boxes_frame attribute
+        self.boxes_frame = customtkinter.CTkScrollableFrame(self, width=400, height=200)
+        self.boxes_frame.grid(row=1, column=1)
 
-# input
-usr = customtkinter.CTkEntry(app, width=350, height=40)
-usr.pack()
+        # Results button.
+        self.res_button = customtkinter.CTkButton(self, text='Results', command=lambda: self.calories_button())
+        self.res_button.grid(row=2, column=1)
 
-# running app
-app.mainloop()
+        # Lists to store the indexes
+        self.checkbox_vars = {}
+        self.checked_rows = []
+        self.checked_oids = {}
+        # print('xxx', day_variable)
+
+    def show_options(self, meal_type):
+        # Pass the meal type to mt for later use in calories_button()
+        self.mt = meal_type
+        # Reset dicts/lists whenever meal button is pressed.
+        self.reset()
+        # Clear previous options if any
+        for widget in self.boxes_frame.winfo_children():
+            widget.destroy()
+
+        # Connect to the database
+        conn = sqlite3.connect('hawks.db')
+        c = conn.cursor()
+        # print('day var = ', self.day_variable)
+        # Execute query to retrieve options based on meal type
+        c.execute(f"SELECT oid, * FROM meals_data WHERE Day LIKE ? AND meal = ?", ('%'+self.day_variable+'%', meal_type,))
+        options = c.fetchall()
+
+        # Display options in the options frame [3 -> 'Name']
+        for i, option in enumerate(options):
+            box_var = customtkinter.IntVar()
+            label = customtkinter.CTkCheckBox(self.boxes_frame, text=option[3], variable=box_var,
+                                              command=lambda opt=option[0], index=i: self.checkbox_changed(index, opt),)
+            label.pack(expand=True, fill='both')
+            self.checkbox_vars[i] = box_var
+
+        # print(self.checkbox_vars)
+        # Close the database connection
+        conn.close()
+
+    # Save the row checked into the list.
+    def checkbox_changed(self, row, oid):
+        if self.checkbox_vars[row].get() == 1:
+            self.checked_rows.append(row)
+            self.checked_oids[row] = oid
+            # print(self.checked_rows)
+            # print(self.checked_oids)
+        else:
+            self.checked_rows.remove(row)
+            del self.checked_oids[row]
+            
+    # Reset the checked items.
+    def reset(self):
+        self.checkbox_vars.clear()
+        self.checked_oids.clear()
+        self.checked_rows.clear()
+
+    # Receive day variable from the TitleFrame class through App class
+    def receive_day(self, day):
+        print("Selected day:", day)
+        self.day_variable = day
+        for widget in self.boxes_frame.winfo_children():
+            widget.destroy()
+        self.reset()
+
+    # Results button that will show all the nutritional values.
+    def calories_button(self):
+        # Connect to the database
+        conn = sqlite3.connect('hawks.db')
+        c = conn.cursor()
+
+        # Execute query to retrieve options based on meal type
+        c.execute(f"SELECT oid, * FROM meals_data WHERE meal = ?", (self.mt,))
+        options = c.fetchall()
+        for option in options:
+            if(option[0] in self.checked_oids.values()):
+                print('Checked = ', option[3])
+            
+
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+
+        # window settings
+        height= self.winfo_screenheight() // 1.3
+        width= self.winfo_screenwidth() // 2
+        self.geometry("%dx%d" % (width,height))
+        self.title("Hawk's meals")
+        self.configure(fg_color="yellow")
+        
+        # Title Frame with title widgets.
+        self.title_frame = TitleFrame(master=self, app_instance=self)
+        self.title_frame.pack(padx=10, pady=50)
+
+        # Main Frame with the meal information.
+        self.main_frame = MainFrame(master=self)
+        self.main_frame.pack()
+
+    # Function to pass day to main frame
+    def pass_day(self, day):
+        self.main_frame.receive_day(day)
+
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
+# app = App()
+# app.mainloop()
