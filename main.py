@@ -66,6 +66,9 @@ class MainFrame(customtkinter.CTkFrame):
         # print('xxx', day_variable)
 
     def show_options(self, meal_type):
+        # Dont print results if day not choosen
+        if(self.day_variable == ''):
+            return
         # Pass the meal type to mt for later use in calories_button()
         self.mt = meal_type
         # Reset dicts/lists whenever meal button is pressed.
@@ -82,13 +85,17 @@ class MainFrame(customtkinter.CTkFrame):
         c.execute(f"SELECT oid, * FROM meals_data WHERE Day LIKE ? AND meal = ?", ('%'+self.day_variable+'%', meal_type,))
         options = c.fetchall()
 
-        # Display options in the options frame [3 -> 'Name']
-        for i, option in enumerate(options):
-            box_var = customtkinter.IntVar()
-            label = customtkinter.CTkCheckBox(self.boxes_frame, text=option[3], variable=box_var,
-                                              command=lambda opt=option[0], index=i: self.checkbox_changed(index, opt),)
-            label.pack(expand=True, fill='both')
-            self.checkbox_vars[i] = box_var
+        if ((self.day_variable == 'Sat' or self.day_variable == 'Sun') and (meal_type == 'Lunch')):
+            e_label = customtkinter.CTkLabel(self.boxes_frame, text='There is no lunch, plase select Breakfast instead')
+            e_label.pack(expand=True, fill='both')
+        else:
+            # Display options in the options frame [3 -> 'Name']
+            for i, option in enumerate(options):
+                box_var = customtkinter.IntVar()
+                label = customtkinter.CTkCheckBox(self.boxes_frame, text=option[3], variable=box_var,
+                                                command=lambda opt=option[0], index=i: self.checkbox_changed(index, opt),)
+                label.pack(expand=True, fill='both')
+                self.checkbox_vars[i] = box_var
 
         # print(self.checkbox_vars)
         # Close the database connection
@@ -99,8 +106,6 @@ class MainFrame(customtkinter.CTkFrame):
         if self.checkbox_vars[row].get() == 1:
             self.checked_rows.append(row)
             self.checked_oids[row] = oid
-            # print(self.checked_rows)
-            # print(self.checked_oids)
         else:
             self.checked_rows.remove(row)
             del self.checked_oids[row]
@@ -121,26 +126,50 @@ class MainFrame(customtkinter.CTkFrame):
 
     # Results button that will show all the nutritional values.
     def calories_button(self):
+        # Delete the boxes
+        for widget in self.boxes_frame.winfo_children():
+            widget.destroy()
         # Connect to the database
         conn = sqlite3.connect('hawks.db')
         c = conn.cursor()
-
         # Execute query to retrieve options based on meal type
         c.execute(f"SELECT oid, * FROM meals_data WHERE meal = ?", (self.mt,))
         options = c.fetchall()
+        cals = 0 
+        prot = 0
+        carb = 0
+        sug = 0 
+        fat= 0
         for option in options:
             if(option[0] in self.checked_oids.values()):
                 print('Checked = ', option[3])
-            
+                res_label = customtkinter.CTkLabel(self.boxes_frame, text=option[3])
+                res_label.pack(expand=True, fill='both')
+                cals += option[4]
+                prot += option[5]
+                carb += option[6]
+                sug += option[7]
+                fat += option[8]
+        cal_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Calories: {cals}"))
+        cal_values.pack(expand=True, fill='both')
+        prot_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Protein: {prot}"))
+        prot_values.pack(expand=True, fill='both')
+        carb_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Carbs: {carb}"))
+        carb_values.pack(expand=True, fill='both')
+        sug_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Sugar: {sug}"))
+        sug_values.pack(expand=True, fill='both')
+        fat_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Fat: {fat}"))
+        fat_values.pack(expand=True, fill='both')
+
 
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
         # window settings
-        height= self.winfo_screenheight() // 1.3
-        width= self.winfo_screenwidth() // 2
-        self.geometry("%dx%d" % (width,height))
+        # height= self.winfo_screenheight() // 1.3
+        # width= self.winfo_screenwidth() // 2
+        # self.geometry("%dx%d" % (width,height))
         self.title("Hawk's meals")
         self.configure(fg_color="yellow")
         
