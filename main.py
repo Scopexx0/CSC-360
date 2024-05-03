@@ -1,11 +1,8 @@
-import pandas as pd
 import sqlite3
 import customtkinter
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
-
-# day_variable = ''
 
 class TitleFrame(customtkinter.CTkFrame):
     def __init__(self, master, app_instance, **kwargs):
@@ -14,14 +11,14 @@ class TitleFrame(customtkinter.CTkFrame):
 
         # Title Label
         self.title = customtkinter.CTkLabel(self, text="Hawk's Meals", font=("Arial", 35), text_color="black", bg_color="grey")
-        self.title.pack(padx=10, pady=50)
+        self.title.pack(padx=10, pady=50, side="top")
 
         # Days Button
         self.day_button = customtkinter.CTkSegmentedButton(self, values=['Mon', 'Tue',
                                                                         'Wed', 'Thu',
                                                                         'Fri', 'Sat', 'Sun'],
                                                            command=self.day_entry)
-        self.day_button.pack()
+        self.day_button.pack(side="bottom")
 
     # Day entry
     def day_entry(self, value):
@@ -63,7 +60,10 @@ class MainFrame(customtkinter.CTkFrame):
         self.checkbox_vars = {}
         self.checked_rows = []
         self.checked_oids = {}
-        # print('xxx', day_variable)
+
+        # Lists for pie plot
+        self.meals = []
+        self.calories = []
 
     def show_options(self, meal_type):
         # Dont print results if day not choosen
@@ -80,7 +80,7 @@ class MainFrame(customtkinter.CTkFrame):
         # Connect to the database
         conn = sqlite3.connect('hawks.db')
         c = conn.cursor()
-        # print('day var = ', self.day_variable)
+
         # Execute query to retrieve options based on meal type
         c.execute(f"SELECT oid, * FROM meals_data WHERE Day LIKE ? AND meal = ?", ('%'+self.day_variable+'%', meal_type,))
         options = c.fetchall()
@@ -97,7 +97,6 @@ class MainFrame(customtkinter.CTkFrame):
                 label.pack(expand=True, fill='both')
                 self.checkbox_vars[i] = box_var
 
-        # print(self.checkbox_vars)
         # Close the database connection
         conn.close()
 
@@ -123,15 +122,17 @@ class MainFrame(customtkinter.CTkFrame):
         for widget in self.boxes_frame.winfo_children():
             widget.destroy()
         self.reset()
-
+    
     # Results button that will show all the nutritional values.
     def calories_button(self):
         # Delete the boxes
         for widget in self.boxes_frame.winfo_children():
             widget.destroy()
+
         # Connect to the database
         conn = sqlite3.connect('hawks.db')
         c = conn.cursor()
+
         # Execute query to retrieve options based on meal type
         c.execute(f"SELECT oid, * FROM meals_data WHERE meal = ?", (self.mt,))
         options = c.fetchall()
@@ -140,6 +141,10 @@ class MainFrame(customtkinter.CTkFrame):
         carb = 0
         sug = 0 
         fat= 0
+
+        selected = customtkinter.CTkLabel(self.boxes_frame, text="Item/s selected:")
+        selected.pack(expand=True, fill='both')
+        # Loop through the db and get the checked items
         for option in options:
             if(option[0] in self.checked_oids.values()):
                 print('Checked = ', option[3])
@@ -150,6 +155,13 @@ class MainFrame(customtkinter.CTkFrame):
                 carb += option[6]
                 sug += option[7]
                 fat += option[8]
+                # For plots
+                self.meals.append(option[3])
+                self.calories.append(option[4])
+
+        # Result labels
+        space = customtkinter.CTkLabel(self.boxes_frame, text="--------------------------------")
+        space.pack(expand=True, fill='both')
         cal_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Calories: {cals}"))
         cal_values.pack(expand=True, fill='both')
         prot_values = customtkinter.CTkLabel(self.boxes_frame, text=(f"Total Protein: {prot}"))
@@ -167,27 +179,68 @@ class App(customtkinter.CTk):
         super().__init__()
 
         # window settings
-        # height= self.winfo_screenheight() // 1.3
-        # width= self.winfo_screenwidth() // 2
-        # self.geometry("%dx%d" % (width,height))
+        height= self.winfo_screenheight() // 1.3
+        width= self.winfo_screenwidth() // 2
+        print(height, width)
+        self.geometry("%dx%d" % (width,height))
         self.title("Hawk's meals")
         self.configure(fg_color="yellow")
-        
+        self.resizable(0,0)
+
+        # self.grid_propagate(False)
+        self.grid_columnconfigure((0, 1, 2), weight=1)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
+
+        self.instructions = customtkinter.CTkButton(self, text="Instructions", command=self.show_instructions)
+        # self.intructions.pack(side="right")
+        self.instructions.grid(row=1, column=3)
+
         # Title Frame with title widgets.
         self.title_frame = TitleFrame(master=self, app_instance=self)
-        self.title_frame.pack(padx=10, pady=50)
+        # self.title_frame.pack(padx=10, pady=50)
+        self.title_frame.grid(row=1, column=2)
 
         # Main Frame with the meal information.
         self.main_frame = MainFrame(master=self)
-        self.main_frame.pack()
+        # self.main_frame.pack()
+        self.main_frame.grid(row=2, column=2)
 
     # Function to pass day to main frame
     def pass_day(self, day):
         self.main_frame.receive_day(day)
 
+    # Instruction function
+    def show_instructions(self):
+        # Create a new window for instructions
+        instructions_window = customtkinter.CTkToplevel(self)
+        instructions_window.title("Instructions")
+        instructions_window.geometry("300x300+800+100")
+        # Instructions text
+        instructions_text = """Steps:
+        1- Pick your day.
+        (Mon, Tue, Wed...)
+
+        2- Pick your type of meal.
+        (Breakfast, Lunch, Dinner)
+        
+        3- Pick your dessired meal option.
+        (Alfredo pasta,...)
+        
+        4- Click result.
+        
+        5- Go again :D
+        
+Note: When choosing one meal type e.g.
+(Breakfast), changing that option will not save the food you picked.
+        """
+
+        # Create a scrolled text widget to display instructions
+        instructions_display = customtkinter.CTkTextbox(instructions_window, width=300, height=300)
+        instructions_display.insert(customtkinter.END, instructions_text)
+        instructions_display.pack(padx=10, pady=10)
+        instructions_window.attributes("-topmost", True)
+        instructions_display.configure(state="disabled")
 
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-# app = App()
-# app.mainloop()
